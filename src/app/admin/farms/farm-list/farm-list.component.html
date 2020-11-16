@@ -1,0 +1,125 @@
+<h4 class="font-weight-bold py-3 mb-4">
+  <span class="text-muted font-weight-light">Farms /</span> List
+</h4>
+<hr class="container-m-nx border-light mt-0 mb-4">
+
+<!-- Element blocking -->
+
+<ng-template #elementBlockTemplate>
+  <div class="block-ui-template">
+    <div class="sk-wave sk-primary mx-auto"><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div></div>
+  </div>
+</ng-template>
+
+<div class="card block-ui-white mb-3" *blockUI="'element'; template: elementBlockTemplate">
+  <div class="card">
+
+    <!-- Table controls -->
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-sm btn-primary" (click)="openDialog()">Add Farm</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table -->
+    <hr class="border-light m-0">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered card-table">
+        <thead>
+        <tr>
+          <th class="text-nowrap cursor-pointer" (click)="setSort('name')">
+            Name<i class="ion text-muted ml-2" *ngIf="sortBy=='name'" [ngClass]="'ion-md-arrow-' + (sortDesc ? 'down' : 'up')"></i>
+          </th>
+          <th class="text-nowrap cursor-pointer" (click)="setSort('last_name')">
+            Status<i class="ion text-muted ml-2" *ngIf="sortBy=='active'" [ngClass]="'ion-md-arrow-' + (sortDesc ? 'down' : 'up')"></i>
+          </th>
+          <th class="text-nowrap cursor-pointer" (click)="setSort('last_name')">
+            Pounds <i class="ion text-muted ml-2" *ngIf="sortBy=='pounds'" [ngClass]="'ion-md-arrow-' + (sortDesc ? 'down' : 'up')"></i>
+          </th>
+          <th>Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let farm of farmsData">
+          <td class="align-middle">{{farm.name}}</td>
+          <td class="align-middle">{{ farm.active ? 'Active': 'Inactive'}}</td>
+          <td class="align-middle">{{ farm.pounds ? farm.pounds.length :0 }}</td>
+          <td class="text-center text-nowrap align-middle">
+            <a (click)="getFarm(farm)" class="btn btn-warning btn-xs icon-btn md-btn-flat" ngbTooltip="Edit">
+              <i class="ion ion-md-create"></i>
+            </a>
+            <a  (click)="deleteFarm(farm._id)" class="btn btn-danger btn-xs icon-btn md-btn-flat" ngbTooltip="Delete">
+              <i class="ion ion-md-trash"></i>
+            </a>
+            <a  (click)="getFarmSize(farm)" class="btn btn-info btn-xs icon-btn md-btn-flat" ngbTooltip="Pounds info">
+              <i class="ion ion-md-open"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- / Table -->
+
+    <!-- Pagination -->
+    <div class="card-body py-0">
+
+      <div class="row">
+        <div class="col-sm text-sm-left text-center pt-3">
+          <span class="text-muted" *ngIf="totalItems">Página {{ currentPage }} of {{ totalPages }}</span>
+        </div>
+        <div class="col-sm pt-3">
+          <ngb-pagination
+            [collectionSize]="totalItems"
+            [pageSize]="perPage"
+            [(page)]="currentPage"
+            (pageChange)="update()"
+            size="sm"
+            class="d-flex justify-content-center justify-content-sm-end m-0"></ngb-pagination>
+        </div>
+      </div>
+
+    </div>
+    <!-- / Pagination -->
+  </div>
+</div>
+
+<!-- MODAL -->
+<ng-template #dialog let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Farm <span class="font-weight-light">Data</span><br>
+    </h5>
+  </div>
+  <div class="modal-content">
+    <app-farm [farm]="currentFarm" (saveFarm)="saveFarm($event)" (closeModal)="closeDialog($event)"></app-farm>
+  </div>
+
+</ng-template>
+<ng-template #poundDialog let-c="close" let-d="dismiss" size="lg">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Farm <span class="font-weight-light">Pounds</span><br>
+    </h5>
+  </div>
+  <div class="modal-content">
+    <br>
+    <div class="container">
+      <h6 class="font-weight-light">Farm Total Size: <strong>{{currentSize | number}} Ha.</strong></h6>
+    </div>
+    <ngx-datatable
+      class="material"
+      [limit]="10"
+      [rows]="currentFarm['pounds']"
+      [rowHeight]="50"
+      [columns]="poundsSettings"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50">
+    </ngx-datatable>
+  </div>
+
+</ng-template>

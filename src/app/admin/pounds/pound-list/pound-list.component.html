@@ -1,0 +1,82 @@
+<h4 class="font-weight-bold py-3 mb-4">
+  <span class="text-muted font-weight-light">Pound /</span> List
+</h4>
+<hr class="container-m-nx border-light mt-0 mb-4">
+
+<!-- Element blocking -->
+
+<ng-template #elementBlockTemplate>
+  <div class="block-ui-template">
+    <div class="sk-wave sk-primary mx-auto"><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div><div class="sk-wave-rect"></div></div>
+  </div>
+</ng-template>
+
+<div class="card block-ui-white mb-3" *blockUI="'element'; template: elementBlockTemplate">
+  <div class="card">
+
+    <!-- Table controls -->
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-sm btn-primary" (click)="openDialog()">Add Pound</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table -->
+    <hr class="border-light m-0">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered card-table">
+        <thead>
+        <tr>
+          <th class="text-nowrap cursor-pointer">
+            Name
+          </th>
+          <th class="text-nowrap cursor-pointer">
+            Farm
+          </th>
+          <th class="text-nowrap cursor-pointer">
+            Size
+          </th>
+          <th class="text-nowrap cursor-pointer" >
+            Depth
+          </th>
+          <th>Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let pound of pounds">
+          <td class="align-middle">{{pound.name}}</td>
+          <td class="align-middle">{{pound.farm ? pound.farm.name : ''}}</td>
+          <td class="align-middle">{{ pound.size | number}}</td>
+          <td class="align-middle">{{ pound.depth | number}}</td>
+          <td class="text-center text-nowrap align-middle">
+            <a (click)="getPound(pound)" class="btn btn-warning btn-xs icon-btn md-btn-flat" ngbTooltip="Edit">
+              <i class="ion ion-md-create"></i>
+            </a>
+            <a (click)="deletePound(pound._id)" class="btn btn-danger btn-xs icon-btn md-btn-flat" ngbTooltip="Delete">
+              <i class="ion ion-md-trash"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- / Table -->
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<ng-template #dialog let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Farm <span class="font-weight-light">Data</span><br>
+    </h5>
+  </div>
+  <div class="modal-content">
+    <app-pound [pound]="currentPound" (savePound)="savePound($event)" (closeModal)="closeDialog($event)"></app-pound>
+  </div>
+
+</ng-template>

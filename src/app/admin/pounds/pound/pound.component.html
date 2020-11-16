@@ -1,0 +1,68 @@
+<form class="form-horizontal" [formGroup]="poundForm" (ngSubmit)="onSave()">
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col mb-0">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" formControlName="name" class="form-control" id="name"
+               [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Input name">
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col mb-0">
+        <label for="farm" class="form-label">Farm</label>
+        <ng-select  formControlName="farm"   [items]="farms" id="farm"
+                    bindLabel="name"
+                    bindValue="_id"
+                    placeholder="Select a farm" [readonly]="pound._id">
+        </ng-select>
+        <div *ngIf="submitted && f.farm.errors" class="invalid-feedback">
+          <div *ngIf="f.farm.errors.required">Required farm</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col mb-0">
+        <label for="size" class="form-label">Size</label>
+        <input type="text" formControlName="size" class="form-control" id="size"
+               [ngClass]="{ 'is-invalid': submitted && f.size.errors }" placeholder="Input size">
+        <div *ngIf="submitted && f.size.errors" class="invalid-feedback">
+          <div *ngIf="f.size.errors.required">Size required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col mb-0">
+        <label for="depth" class="form-label">Depth</label>
+        <input type="text" formControlName="depth" class="form-control" id="depth"
+               [ngClass]="{ 'is-invalid': submitted && f.depth.errors }" placeholder="Input size">
+        <div *ngIf="submitted && f.depth.errors" class="invalid-feedback">
+          <div *ngIf="f.depth.errors.required">Depth required</div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" class="form-check-input" formControlName="active" id="active"
+                 [ngClass]="{ 'is-invalid': submitted && f.active.errors }">
+          <div class="form-check-label">
+            Pound is Active?
+          </div>
+        </label>
+        <div *ngIf="submitted && f.active.errors" class="invalid-feedback">
+          <div *ngIf="f.active.errors.required">Status required</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="close()">Close</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>
