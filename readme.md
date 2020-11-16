@@ -5,8 +5,9 @@
 This is the Farm Challenge front end part, made with Angular and Angular CLI
 
 ## Installation
+Fist you need install [NodeJS](https://nodejs.org/en/download/) in your pc
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [npm](https://www.npmjs.com/) to install dependencies.
 
 ```bash
 npm install
@@ -30,6 +31,3 @@ $ ng serve
 $ ng run build --prod
 
 ```
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
